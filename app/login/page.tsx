@@ -64,10 +64,11 @@ export default function LoginPage() {
     router.push("/dashboard");
   };
 
-  const handleGoogleLogin = async () => {
+ const handleGoogleLogin = async () => {
+    const currentOrigin = window.location.origin;
     await signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000/dashboard",
+      callbackURL: `${currentOrigin}/dashboard`,
     });
   };
 
