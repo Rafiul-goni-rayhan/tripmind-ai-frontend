@@ -68,7 +68,7 @@ export default function LoginPage() {
     const currentOrigin = window.location.origin;
     await signIn.social({
       provider: "google",
-      callbackURL: `${currentOrigin}/dashboard`,
+      callbackURL: `/dashboard`,
     });
   };
 
