@@ -127,13 +127,13 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <button
+        {/* <button
           onClick={handleDemoLogin}
           disabled={loading}
           className="mt-3 w-full rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-sm font-semibold text-teal-700 hover:bg-teal-100 disabled:opacity-60"
         >
           Try Demo Login
-        </button>
+        </button> */}
 
         <div className="my-5 flex items-center gap-3">
           <div className="h-px flex-1 bg-slate-200" />
