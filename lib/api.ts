@@ -205,7 +205,7 @@ export interface Booking {
   travelers: number;
   contactPhone: string;
   totalPrice: number;
-  status: "confirmed" | "cancelled";
+  status: "pending_payment" | "confirmed" | "cancelled";
   createdAt: string;
 }
 
@@ -265,6 +265,37 @@ export async function cancelBooking(id: string) {
 
   if (!res.ok) {
     throw new Error(result.message || "Failed to cancel booking");
+  }
+
+  return result;
+}
+
+export async function createCheckoutSession(bookingId: string) {
+  const res = await fetch(`${API_URL}/payments/create-checkout-session`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ bookingId }),
+  });
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.message || "Payment শুরু করতে সমস্যা হয়েছে");
+  }
+
+  return result;
+}
+
+export async function verifyPayment(sessionId: string) {
+  const res = await fetch(`${API_URL}/payments/verify/${sessionId}`, {
+    credentials: "include",
+  });
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.message || "Payment verify করতে সমস্যা হয়েছে");
   }
 
   return result;

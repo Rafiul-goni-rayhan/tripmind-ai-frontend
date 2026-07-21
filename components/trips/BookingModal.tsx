@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { X, Loader2, CheckCircle2, Calendar, Users, Phone } from "lucide-react";
-import { createBooking, Trip } from "@/lib/api";
-
+import { createBooking, Trip,createCheckoutSession } from "@/lib/api";
 export default function BookingModal({
   trip,
   onClose,
@@ -31,16 +30,18 @@ export default function BookingModal({
 
     setLoading(true);
     try {
-      await createBooking({
+      const bookingRes = await createBooking({
         tripId: trip._id,
         travelDate,
         travelers: Number(travelers),
         contactPhone,
       });
-      setSuccess(true);
+
+      const bookingId = bookingRes.data._id;
+      const checkoutRes = await createCheckoutSession(bookingId);
+      window.location.href = checkoutRes.url;
     } catch (err: any) {
-      setError(err.message || "Booking করতে সমস্যা হয়েছে।");
-    } finally {
+      setError(err.message || "সমস্যা হয়েছে, আবার চেষ্টা করো।");
       setLoading(false);
     }
   };
